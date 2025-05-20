@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop | eyebreed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header (copied from index.html) -->
+    <header>
+        <nav class="navbar">
+            <div class="hamburger" aria-label="Open menu" tabindex="0">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="shop.html">Shop</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                <li>
+                    <a href="#" id="cart-link">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                        <span id="cart-count" style="background:#2196f3; color:#fff; border-radius:50%; padding:2px 8px; font-size:0.9em; margin-left:4px; vertical-align:middle; display:inline-block;">0</span>
+                    </a>
+                </li>
+            </ul>
+            <form class="search-bar" action="#" method="get">
+                <input type="text" placeholder="Search products..." name="search">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <div class="logo">
+                <img src="logo.avif" alt="eyebreed logo" style="height:40px; vertical-align:middle;">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Heading and background image section -->
+    <section class="opening-section" style="height: 220px;">
+        <div class="welcome-bg"></div>
+        <div class="welcome-overlay"></div>
+        <div class="welcome-content">
+            <h1>Shop</h1>
+        </div>
+    </section>
+
+    <!-- Product grid -->
+    <main>
+        <section class="product-list" style="display: flex; gap: 32px; align-items: flex-start; padding: 32px;">
+            <!-- Uneven T-shirt product card with image swiper -->
+            <div class="product-card" style="max-width: 180px; min-width: 140px; margin: 0; cursor:pointer;" id="uneven-tshirt-card">
+                <div class="product-image-slider" style="position: relative; width: 100%; max-width: 150px; margin: 0 auto;">
+                    <img id="product-img-1" src="product 1.webp" alt="Uneven T-shirt front" style="width:100%; border-radius:8px; display: block;">
+                    <img id="product-img-2" src="product face.webp" alt="Uneven T-shirt back" style="width:100%; border-radius:8px; display: none;">
+                    <button id="prev-img" class="img-switch-btn" type="button">&#8592;</button>
+                    <button id="next-img" class="img-switch-btn" type="button">&#8594;</button>
+                </div>
+                <h3 style="font-size:1.1em;">Uneven T-shirt</h3>
+                <p style="font-size:0.95em;">Show your unique style with the Uneven T-shirt.</p>
+                <button class="shop-btn" id="buy-now-btn" type="button">Buy Now</button>
+            </div>
+            <!-- Leave space for more products here -->
+            <!--
+            <div class="product-card">...</div>
+            <div class="product-card">...</div>
+            -->
+        </section>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="product-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:999; align-items:center; justify-content:center;">
+        <div style="background:#fff; color:#222; border-radius:12px; max-width:340px; width:90%; padding:24px; position:relative;">
+            <button id="close-modal" style="position:absolute; top:8px; right:12px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+            <img src="product 1.webp" alt="Uneven T-shirt" style="width:100%; border-radius:8px; margin-bottom:12px;">
+            <h2 style="color:#4e2e0e;">Uneven T-shirt</h2>
+            <p>Price: <span style="color:#2196f3; font-weight:bold;">119 NIS</span></p>
+            <label for="size-select">Size:</label>
+            <select id="size-select" style="margin-bottom:10px;">
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+            <br>
+            <label for="qty-input">Quantity:</label>
+            <input type="number" id="qty-input" value="1" min="1" max="10" style="width:50px; margin-bottom:10px;">
+            <br>
+            <button class="shop-btn" id="modal-add-cart" type="button">Add to Cart</button>
+        </div>
+    </div>
+
+    <!-- Cart Notification -->
+    <div id="cart-notification" style="display:none; position:fixed; top:30px; left:50%; transform:translateX(-50%); background:#fff; color:#222; border-radius:8px; box-shadow:0 2px 12px rgba(0,0,0,0.12); padding:20px 32px; z-index:2000; text-align:center;">
+        <span id="cart-notification-message">Added to cart!</span>
+        <br>
+        <button id="cart-notification-close" style="margin-top:12px; background:#2196f3; color:#fff; border:none; border-radius:4px; padding:6px 18px; font-weight:bold; cursor:pointer;">OK</button>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:3000; align-items:center; justify-content:center;">
+        <div style="background:#fff; color:#222; border-radius:12px; max-width:340px; width:90%; padding:24px; position:relative;">
+            <button id="close-cart-modal" style="position:absolute; top:8px; right:12px; background:none; border:none; font-size:1.5em; cursor:pointer;">&times;</button>
+            <h2 style="color:#4e2e0e; margin-top:0;">Your Cart</h2>
+            <div id="cart-content">
+                <!-- Cart items will be injected here -->
+            </div>
+            <button id="pay-now-btn" style="margin-top:18px; background:#2196f3; color:#fff; border:none; border-radius:6px; padding:10px 28px; font-size:1.1em; font-weight:bold; cursor:pointer; width:100%;">Pay Now</button>
+        </div>
+    </div>
+
+    <!-- Footer (copied from index.html) -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Connect</a></li>
+                </ul>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form>
+                        <input type="email" placeholder="Your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+                <div class="footer-info">
+                    <p>All rights reserved.<br>&copy; 2025 eyebreed.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image slider
+    const img1 = document.getElementById('product-img-1');
+    const img2 = document.getElementById('product-img-2');
+    const prev = document.getElementById('prev-img');
+    const next = document.getElementById('next-img');
+    let showing = 1;
+    function showImg(n) {
+        if (n === 1) {
+            img1.style.display = 'block';
+            img2.style.display = 'none';
+        } else {
+            img1.style.display = 'none';
+            img2.style.display = 'block';
+        }
+        showing = n;
+    }
+    if (prev && next && img1 && img2) {
+        prev.onclick = function(e) { e.preventDefault(); showImg(showing === 1 ? 2 : 1); };
+        next.onclick = function(e) { e.preventDefault(); showImg(showing === 1 ? 2 : 1); };
+    }
+
+    // Modal logic
+    const productCard = document.getElementById('uneven-tshirt-card');
+    const modal = document.getElementById('product-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalAddCart = document.getElementById('modal-add-cart');
+    const buyNowBtn = document.getElementById('buy-now-btn');
+    const sizeSelect = document.getElementById('size-select');
+    const qtyInput = document.getElementById('qty-input');
+    const cartNotification = document.getElementById('cart-notification');
+    const cartNotificationMessage = document.getElementById('cart-notification-message');
+    const cartNotificationClose = document.getElementById('cart-notification-close');
+
+    let cartCount = 0;
+    const cartCountSpan = document.getElementById('cart-count');
+
+    // Prevent modal open when clicking Buy Now
+    buyNowBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        cartCount++;
+        cartCountSpan.textContent = cartCount;
+        showCartNotification('Added to cart!');
+    });
+
+    // Open modal when clicking anywhere else on the card
+    productCard.addEventListener('click', function(e) {
+        if (e.target !== buyNowBtn && !e.target.classList.contains('img-switch-btn')) {
+            modal.style.display = 'flex';
+        }
+    });
+
+    closeModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // Modal add to cart
+    modalAddCart.addEventListener('click', function() {
+        const size = sizeSelect.value;
+        const qty = parseInt(qtyInput.value, 10) || 1;
+        cartCount += qty;
+        cartCountSpan.textContent = cartCount;
+        cartNotificationMessage.textContent = 'Added to cart!\nSize: ' + size + '\nQuantity: ' + qty;
+        cartNotification.style.display = 'flex';
+        setTimeout(() => { cartNotification.style.display = 'none'; }, 3000);
+        modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside the modal content
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Close cart notification
+    cartNotificationClose.addEventListener('click', function() {
+        cartNotification.style.display = 'none';
+    });
+
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function(e) {
+            navLinks.classList.toggle('active');
+        });
+    }
+
+    // Cart modal logic
+    const cartLink = document.getElementById('cart-link');
+    const cartModal = document.getElementById('cart-modal');
+    const closeCartModal = document.getElementById('close-cart-modal');
+    const cartContent = document.getElementById('cart-content');
+
+    // Store cart info in JS (for demo, only one product)
+    let cartProduct = {
+        name: "Uneven T-shirt",
+        img: "product 1.webp",
+        qty: 0,
+        price: 119 // <-- Change to 119
+    };
+
+    // Update cart count and cartProduct.qty in your add-to-cart logic:
+    buyNowBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        cartCount++;
+        cartProduct.qty++;
+        cartCountSpan.textContent = cartCount;
+        showCartNotification('Added to cart!');
+    });
+
+    modalAddCart.addEventListener('click', function() {
+        const qty = parseInt(qtyInput.value, 10) || 1;
+        cartCount += qty;
+        cartProduct.qty += qty;
+        cartCountSpan.textContent = cartCount;
+        cartNotificationMessage.textContent = 'Added to cart!\nSize: ' + sizeSelect.value + '\nQuantity: ' + qty;
+        cartNotification.style.display = 'flex';
+        setTimeout(() => { cartNotification.style.display = 'none'; }, 3000);
+        modal.style.display = 'none';
+    });
+
+    // Show cart modal with product info
+    cartLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (cartProduct.qty > 0) {
+            cartContent.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+                    <img src="${cartProduct.img}" alt="${cartProduct.name}" style="width:48px; height:48px; object-fit:cover; border-radius:6px;">
+                    <div>
+                        <div style="font-weight:bold;">${cartProduct.name}</div>
+                        <div style="display:flex; align-items:center; gap:8px; margin:6px 0;">
+                            <button id="decrease-qty" style="background:#2196f3; color:#fff; border:none; border-radius:4px; width:28px; height:28px; font-size:1.2em; cursor:pointer;">-</button>
+                            <span id="cart-product-qty">${cartProduct.qty}</span>
+                            <button id="increase-qty" style="background:#2196f3; color:#fff; border:none; border-radius:4px; width:28px; height:28px; font-size:1.2em; cursor:pointer;">+</button>
+                            <button id="delete-product" style="background:#f44336; color:#fff; border:none; border-radius:4px; padding:4px 10px; margin-left:10px; cursor:pointer;">Delete</button>
+                        </div>
+                        <div>Total: <span id="cart-product-total">${(cartProduct.qty * cartProduct.price).toFixed(2)} NIS</span></div>
+                    </div>
+                </div>
+                <button id="pay-now-btn" style="margin-top:18px; background:#2196f3; color:#fff; border:none; border-radius:6px; padding:10px 28px; font-size:1.1em; font-weight:bold; cursor:pointer; width:100%;">Pay Now</button>
+            `;
+            // Add event listeners for quantity and delete
+            document.getElementById('increase-qty').onclick = function() {
+                cartProduct.qty++;
+                cartCount++;
+                updateCartDisplay();
+            };
+            document.getElementById('decrease-qty').onclick = function() {
+                if (cartProduct.qty > 1) {
+                    cartProduct.qty--;
+                    cartCount--;
+                    updateCartDisplay();
+                }
+            };
+            document.getElementById('delete-product').onclick = function() {
+                cartCount -= cartProduct.qty;
+                cartProduct.qty = 0;
+                updateCartDisplay();
+                cartModal.style.display = 'none';
+            };
+            document.getElementById('pay-now-btn').onclick = function() {
+                alert('Proceeding to payment...');
+            };
+        } else {
+            cartContent.innerHTML = `<div>Your cart is empty.</div>`;
+        }
+        cartModal.style.display = 'flex';
+    });
+
+    closeCartModal.addEventListener('click', function() {
+        cartModal.style.display = 'none';
+    });
+
+    // Optional: close cart modal when clicking outside the content
+    cartModal.addEventListener('click', function(e) {
+        if (e.target === cartModal) {
+            cartModal.style.display = 'none';
+        }
+    });
+    // Responsive navbar: move nav-links to top on mobile
+    // Get all icons in the header (navbar) lengthwise
+    // This will select all <i> elements inside the navbar, in order
+    const navbarIcons = Array.from(document.querySelectorAll('.navbar i'));
+    console.log('Header icons:', navbarIcons);
+    function adjustNavbar() {
+        const nav = document.querySelector('.navbar');
+        // Remove default margin and overflow to prevent unwanted light lines
+        document.body.style.margin = '0';
+        document.body.style.overflowX = 'hidden';
+
+        // Use the same container class as the homepage for consistent layout
+        // If not already present, wrap main content in a .container
+        let main = document.querySelector('main');
+        if (main && !main.classList.contains('container')) {
+            main.classList.add('container');
+            main.style.maxWidth = '1200px';
+            main.style.margin = '0 auto';
+            main.style.padding = '32px 16px';
+            main.style.boxSizing = 'border-box';
+        }
+
+        const navLinks = document.querySelector('.nav-links');
+        if (window.innerWidth <= 768) {
+            nav.style.flexDirection = 'column';
+            navLinks.style.position = 'static';
+            navLinks.style.width = '100%';
+            // Move logo and search bar into nav-links for hamburger menu (mobile)
+            const logo = document.querySelector('.logo');
+            const searchBar = document.querySelector('.search-bar');
+            if (logo && searchBar && !navLinks.contains(logo)) {
+                navLinks.appendChild(logo);
+                navLinks.appendChild(searchBar);
+                logo.style.margin = '16px 0 0 0';
+                logo.style.display = 'flex';
+                logo.style.justifyContent = 'center';
+                searchBar.style.margin = '16px 0';
+                searchBar.style.width = '100%';
+                searchBar.style.display = 'flex';
+                searchBar.style.justifyContent = 'center';
+            }
+            navLinks.style.top = 'unset';
+            navLinks.style.right = 'unset';
+            navLinks.style.background = 'transparent';
+        } else {
+            nav.style.flexDirection = '';
+            navLinks.style.position = '';
+            navLinks.style.width = '';
+            navLinks.style.top = '';
+            navLinks.style.right = '';
+            navLinks.style.background = '';
+        }
+    }
+    window.addEventListener('resize', adjustNavbar);
+    adjustNavbar();
+    // Helper to update cart modal and cart count
+    function updateCartDisplay() {
+        cartCountSpan.textContent = cartCount;
+        if (cartProduct.qty > 0) {
+            document.getElementById('cart-product-qty').textContent = cartProduct.qty;
+            document.getElementById('cart-product-total').textContent = (cartProduct.qty * cartProduct.price).toFixed(2) + ' NIS';
+        } else {
+            cartModal.style.display = 'none';
+        }
+    }
+});
+</script>
+<script>
+function showCartNotification(message) {
+    const notif = document.getElementById('cart-notification');
+    const notifMsg = document.getElementById('cart-notification-message');
+    notifMsg.textContent = message;
+    notif.style.display = 'block';
+    // Optional: auto-hide after 2 seconds
+    setTimeout(() => { notif.style.display = 'none'; }, 2000);
+}
+document.getElementById('cart-notification-close').onclick = function() {
+    document.getElementById('cart-notification').style.display = 'none';
+};
+</script>
+</body>
+</html>
